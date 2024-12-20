@@ -1,0 +1,43 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+// Middleware to parse form data
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Route to display the form
+app.get('/add-product', (req, res) => {
+    res.send(`
+        <html>
+            <body>
+                <form action="/add-product" method="POST">
+                    <label for="productName">Product Name:</label>
+                    <input type="text" id="productName" name="productName" required>
+                    
+                    <label for="productSize">Product Size:</label>
+                    <input type="text" id="productSize" name="productSize" required>
+                    
+                    <button type="submit">Submit</button>
+                </form>
+            </body>
+        </html>
+    `);
+});
+
+// Route to handle form submission
+app.post('/add-product', (req, res) => {
+    // Parse the form data
+    const { productName, productSize } = req.body;
+    
+    // Log the parsed data to the console
+    console.log('Product Name:', productName);
+    console.log('Product Size:', productSize);
+    
+    res.send('Product added successfully!');
+});
+
+// Start the server
+app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
+});
